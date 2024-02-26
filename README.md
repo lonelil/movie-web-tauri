@@ -8,5 +8,6 @@ movie-web as a desktop app, using tauri.
 
 ## To Do
 
-- [ ] Make it work with tauri's fetch
+- [x] Make it work with tauri's fetch
 - [ ] Make this auto update when movie-web does
+- [ ] Add support for setDomainRule from the extension
