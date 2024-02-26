@@ -1,4 +1,5 @@
 import { Fetcher, makeSimpleProxyFetcher } from "@movie-web/providers";
+import { ResponseType, fetch as tauriFetch } from "@tauri-apps/api/http";
 
 import { sendExtensionRequest } from "@/backend/extension/messaging";
 import { getApiToken, setApiToken } from "@/backend/helpers/providerApi";
@@ -82,6 +83,28 @@ export function makeExtensionFetcher() {
       finalUrl: res.finalUrl,
       statusCode: res.statusCode,
       headers: makeFinalHeaders(ops.readHeaders, res.headers),
+    };
+  };
+  return fetcher;
+}
+
+export function makeTauriFetcher() {
+  const fetcher: Fetcher = async (url, ops) => {
+    // @ts-expect-error something about the fetch args
+    const result = await tauriFetch<any>(`${ops.baseUrl}${url}`, {
+      ...ops,
+      responseType: ResponseType.Text,
+    });
+    // @ts-expect-error there is ok in result
+    if (!result?.ok) throw new Error(`tauri error: ${result?.error}`);
+
+    return {
+      body: result.headers["content-type"].includes("json")
+        ? JSON.parse(result.data)
+        : result.data,
+      finalUrl: result.url,
+      statusCode: result.status,
+      headers: new Headers(result.headers),
     };
   };
   return fetcher;
