@@ -41,7 +41,7 @@ function ProxyEdit({ proxyUrls, setProxyUrls }: ProxyEditProps) {
 
   const removeItem = useCallback(
     (index: number) => {
-      setProxyUrls((s) => [...(s ?? []).filter((v, i) => i !== index)]);
+      setProxyUrls((s) => [...(s ?? []).filter((_v, i) => i !== index)]);
     },
     [setProxyUrls],
   );

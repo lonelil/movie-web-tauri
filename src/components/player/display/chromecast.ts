@@ -45,6 +45,7 @@ export function makeChromecastDisplayInterface(
     title: "",
     type: MWMediaType.MOVIE,
   };
+  // @ts-expect-error no idea why typescript is so mad
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let caption: DisplayCaption | null = null;
 
